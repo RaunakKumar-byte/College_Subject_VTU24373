@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="fade-in">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">MyApp</span>
+        <button class="sidebar-toggle">☰</button>
+      </div>
+      <nav>
+        <ul>
+          <li class="nav-item">
+            <a href="/dashboard">
+              <i class="material-icons">dashboard</i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/events">
+              <i class="material-icons">event</i>
+              <span>Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/profile">
+              <i class="material-icons">person</i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/settings">
+              <i class="material-icons">settings</i>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="main-content">
+      <nav class="navbar">
+        <button class="sidebar-toggle mobile-only">☰</button>
+        <div class="navbar-brand">MyApp</div>
+        <div class="nav-actions">
+          <button class="dark-toggle" title="Toggle dark mode">🌓</button>
+          <div class="user-menu">
+            <button class="user-btn"><%= user ? user.username : 'User' %> ▾</button>
+            <div class="user-dropdown">
+              <a href="/profile">Profile</a>
+              <a href="/login">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div class="events-page-header">
+          <h1>Manage Events</h1>
+          <p>Create and manage your events</p>
+        </div>
+
+        <!-- Create Event Section -->
+        <section class="create-event-section">
+          <div class="section-title">
+            <h2>Create New Event</h2>
+            <p>Fill in the details below to create a new event</p>
+          </div>
+
+          <form action="/events/create" method="POST" class="event-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="title">Event Title *</label>
+                <input 
+                  type="text" 
+                  id="title"
+                  name="title" 
+                  placeholder="Enter event title" 
+                  required 
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="category">Category *</label>
+                <select name="category" id="category" required>
+                  <option value="">Select Category</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="Workshop">Workshop</option>
+                  <option value="Conference">Conference</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea 
+                id="description"
+                name="description" 
+                placeholder="Enter event description (optional)"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="event_date">Event Date & Time *</label>
+                <input 
+                  type="datetime-local" 
+                  id="event_date"
+                  name="event_date" 
+                  required 
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">
+                <i class="material-icons">add</i>
+                Create Event
+              </button>
+              <a href="/dashboard" class="btn-cancel">Cancel</a>
+            </div>
+          </form>
+        </section>
+
+        <!-- Events List Section -->
+        <section class="events-section">
+          <div class="section-title">
+            <h2>Your Events</h2>
+            <p>Manage all your events here</p>
+          </div>
+
+          <% if (events && events.length === 0) { %>
+            <div class="empty-state-large">
+              <div class="empty-icon">📭</div>
+              <h3>No Events Yet</h3>
+              <p>Create your first event to get started!</p>
+            </div>
+          <% } %>
+
+          <% if (events && events.length > 0) { %>
+            <div class="events-grid">
+              <% events.forEach(event => { %>
+                <div class="event-full-card">
+                  <div class="event-card-header">
+                    <h3><%= event.title %></h3>
+                    <div class="badges">
+                      <span class="category-badge <%= event.category ? event.category.toLowerCase() : '' %>">
+                        <%= event.category %>
+                      </span>
+                      <span class="status-badge <%= event.status ? event.status.toLowerCase() : 'pending' %>">
+                        <%= event.status || 'Pending' %>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="event-card-body">
+                    <% if (event.description) { %>
+                      <p class="event-description"><%= event.description %></p>
+                    <% } %>
+
+                    <div class="event-meta">
+                      <div class="meta-item">
+                        <i class="material-icons">schedule</i>
+                        <span><%= event.event_date ? new Date(event.event_date).toLocaleString() : 'No date set' %></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="event-card-footer">
+                    <a href="/events/edit/<%= event.id %>" class="btn-action btn-edit">
+                      <i class="material-icons">edit</i>
+                      Edit
+                    </a>
+                    <a href="/events/delete/<%= event.id %>" class="btn-action btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">
+                      <i class="material-icons">delete</i>
+                      Delete
+                    </a>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <button class="dark-toggle fixed-toggle" title="Toggle dark mode">🌓</button>
+  <script src="/app.js"></script>
+</body>
+</html>

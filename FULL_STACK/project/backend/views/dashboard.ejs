@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="fade-in">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">MyApp</span>
+        <button class="sidebar-toggle">☰</button>
+      </div>
+      <nav>
+        <ul>
+          <li class="nav-item active">
+            <a href="/dashboard">
+              <i class="material-icons">dashboard</i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/profile">
+              <i class="material-icons">person</i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/events">
+              <i class="material-icons">event</i>
+              <span>Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/settings">
+              <i class="material-icons">settings</i>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="main-content">
+      <nav class="navbar">
+        <button class="sidebar-toggle mobile-only">☰</button>
+        <div class="navbar-brand">MyApp</div>
+        <div class="nav-actions">
+          <button class="dark-toggle" title="Toggle dark mode">🌓</button>
+          <div class="user-menu">
+            <button class="user-btn"><%= user ? user.username : 'User' %> ▾</button>
+            <div class="user-dropdown">
+              <a href="/profile">Profile</a>
+              <a href="/login">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main>
+        <section class="welcome">
+          <h1>Welcome back, <%= user ? user.username : 'User' %> 👋</h1>
+          <p>Here's a summary of your events and activities</p>
+        </section>
+
+        <!-- Summary Cards Section -->
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Total Events</div>
+            <span class="value"><%= typeof totalEvents !== 'undefined' ? totalEvents : 0 %></span>
+          </div>
+          <div class="stat-card">
+            <div class="label">Active Events</div>
+            <span class="value"><%= typeof activeEvents !== 'undefined' ? activeEvents : 0 %></span>
+          </div>
+          <div class="stat-card">
+            <div class="label">Completed Events</div>
+            <span class="value"><%= typeof completedEvents !== 'undefined' ? completedEvents : 0 %></span>
+          </div>
+          <div class="stat-card">
+            <div class="label">Online Users</div>
+            <span class="value"><%= typeof onlineUsers !== 'undefined' ? onlineUsers : 0 %></span>
+          </div>
+        </section>
+
+        <!-- Quick Action Buttons -->
+        <section class="quick-actions">
+          <a href="/events" class="action-btn action-btn-primary">
+            <i class="material-icons">add_circle</i>
+            <span>Create New Event</span>
+          </a>
+          <a href="/events" class="action-btn action-btn-secondary">
+            <i class="material-icons">event</i>
+            <span>View All Events</span>
+          </a>
+          <a href="/profile" class="action-btn action-btn-secondary">
+            <i class="material-icons">person</i>
+            <span>Edit Profile</span>
+          </a>
+        </section>
+
+        <!-- Recent Events Preview Section -->
+        <section class="recent-events">
+          <div class="section-header">
+            <h3>Recent Events</h3>
+            <a href="/events" class="view-all-link">View All →</a>
+          </div>
+
+          <% if (events && events.length === 0) { %>
+            <div class="empty-state">
+              <div class="empty-icon">📅</div>
+              <p>No events yet</p>
+              <p class="empty-subtext">Create your first event to get started!</p>
+              <a href="/events" class="btn">Create Event</a>
+            </div>
+          <% } %>
+
+          <% if (events && events.length > 0) { %>
+            <div class="recent-events-preview">
+              <% events.slice(0, 3).forEach(event => { %>
+                <div class="event-preview-card">
+                  <div class="event-preview-header">
+                    <h4><%= event.title %></h4>
+                    <span class="category-badge <%= event.category ? event.category.toLowerCase() : '' %>">
+                      <%= event.category %>
+                    </span>
+                  </div>
+
+                  <p class="event-description"><%= event.description ? event.description.substring(0, 80) + '...' : 'No description' %></p>
+
+                  <div class="event-preview-footer">
+                    <span class="event-date-small">
+                      <i class="material-icons">schedule</i>
+                      <%= event.event_date ? new Date(event.event_date).toLocaleDateString() : 'No date' %>
+                    </span>
+                    <span class="status-badge <%= event.status ? event.status.toLowerCase() : 'pending' %>">
+                      <%= event.status || 'Pending' %>
+                    </span>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+            <% if (events.length > 3) { %>
+              <div class="view-more-container">
+                <a href="/events" class="view-more-btn">View All <%= events.length %> Events</a>
+              </div>
+            <% } %>
+          <% } %>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <button class="dark-toggle fixed-toggle" title="Toggle dark mode">🌓</button>
+  <script src="/app.js"></script>
+</body>
+</html>
