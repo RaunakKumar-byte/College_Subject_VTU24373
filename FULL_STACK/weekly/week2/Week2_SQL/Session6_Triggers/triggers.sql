@@ -1,23 +1,18 @@
--- Table for drivers with OTP
 CREATE TABLE drivers(
 id INT PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(50),
 otp INT
 );
 
--- BEFORE INSERT trigger
 DELIMITER //
 CREATE TRIGGER before_driver_insert
-BEFORE INSERT ON drivers
+BEFORE INSERT ON drivers 
 FOR EACH ROW
 BEGIN
 SET NEW.otp = FLOOR(1000 + RAND()*9000);
 END //
 DELIMITER ;
 
---------------------------------------------------
-
--- Order table
 CREATE TABLE orders(
 order_id INT PRIMARY KEY AUTO_INCREMENT,
 total_price INT
@@ -33,7 +28,6 @@ order_id INT,
 dish_id INT
 );
 
--- AFTER INSERT trigger
 DELIMITER //
 CREATE TRIGGER after_add_dish
 AFTER INSERT ON order_items
@@ -46,18 +40,12 @@ WHERE order_id = NEW.order_id;
 END //
 DELIMITER ;
 
---------------------------------------------------
-
--- Auto timestamp
 CREATE TABLE posts(
 id INT AUTO_INCREMENT PRIMARY KEY,
 content VARCHAR(100),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
---------------------------------------------------
-
--- Prevent negative salary
 CREATE TABLE employee(
 id INT PRIMARY KEY,
 name VARCHAR(50),
@@ -76,9 +64,6 @@ END IF;
 END //
 DELIMITER ;
 
---------------------------------------------------
-
--- Audit log
 CREATE TABLE employee_audit(
 emp_id INT,
 old_salary INT,
