@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Tantraz Registration</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -9,35 +10,33 @@
 
 <form>
 
-<label>Full Name</label>
-<input type="text" required placeholder="Enter full name">
+<label for="fullname">Full Name</label>
+<input type="text" id="fullname" required placeholder="Enter full name">
 
-<label>Email</label>
-<input type="email" required>
+<label for="email">Email</label>
+<input type="email" id="email" required>
 
-<label>Participation Category</label>
-<select required>
+<label for="category">Participation Category</label>
+<select id="category" required>
+<option value="">Select Category</option>
 <option>Individual</option>
 <option>Team</option>
 <option>Audience</option>
 </select>
 
 <h3>T-Shirt Size</h3>
-
-<input type="radio" name="size">S
-<input type="radio" name="size">M
-<input type="radio" name="size">L
-<input type="radio" name="size">XL
+<label><input type="radio" name="size" value="S"> S</label>
+<label><input type="radio" name="size" value="M"> M</label>
+<label><input type="radio" name="size" value="L"> L</label>
+<label><input type="radio" name="size" value="XL"> XL</label>
 
 <h3>Technical Interests</h3>
-
-<input type="checkbox">AI
-<input type="checkbox">Web Dev
-<input type="checkbox">Cloud Computing
+<label><input type="checkbox" name="interests" value="AI"> AI</label>
+<label><input type="checkbox" name="interests" value="Web Dev"> Web Dev</label>
+<label><input type="checkbox" name="interests" value="Cloud Computing"> Cloud Computing</label>
 
 <h3>Suggestions</h3>
-
-<textarea maxlength="200" placeholder="Write suggestions"></textarea>
+<textarea id="suggestions" maxlength="200" placeholder="Write suggestions"></textarea>
 
 <br><br>
 
@@ -46,4 +45,5 @@
 </form>
 
 </body>
+</html>
 </html>
