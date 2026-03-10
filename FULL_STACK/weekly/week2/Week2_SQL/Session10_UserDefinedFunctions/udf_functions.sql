@@ -1,4 +1,3 @@
--- net salary after 10% tax
 DELIMITER //
 CREATE FUNCTION net_salary(salary INT)
 RETURNS INT
@@ -8,9 +7,6 @@ RETURN salary - (salary * 0.10);
 END //
 DELIMITER ;
 
----------------------------------------------
-
--- user activity
 DELIMITER //
 CREATE FUNCTION user_status(last_login DATE)
 RETURNS VARCHAR(20)
@@ -24,9 +20,6 @@ END IF;
 END //
 DELIMITER ;
 
----------------------------------------------
-
--- tax slab
 DELIMITER //
 CREATE FUNCTION tax_calculation(salary INT)
 RETURNS INT
@@ -48,9 +41,6 @@ RETURN tax;
 END //
 DELIMITER ;
 
----------------------------------------------
-
--- experience category
 DELIMITER //
 CREATE FUNCTION experience_category(years INT)
 RETURNS VARCHAR(20)
@@ -68,9 +58,6 @@ END IF;
 END //
 DELIMITER ;
 
----------------------------------------------
-
--- late fee calculator
 DELIMITER //
 CREATE FUNCTION late_fee(days_late INT)
 RETURNS INT
