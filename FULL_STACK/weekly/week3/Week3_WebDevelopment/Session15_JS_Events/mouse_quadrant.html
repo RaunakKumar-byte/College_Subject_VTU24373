@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Move Mouse</h2>
+
+<script>
+
+document.addEventListener("mousemove",(e)=>{
+
+let w=window.innerWidth;
+let h=window.innerHeight;
+
+if(e.clientX<w/2 && e.clientY<h/2)
+document.body.style.background="red";
+
+else if(e.clientX>w/2 && e.clientY<h/2)
+document.body.style.background="blue";
+
+else if(e.clientX<w/2 && e.clientY>h/2)
+document.body.style.background="green";
+
+else
+document.body.style.background="yellow";
+
+});
+
+</script>
+
+</body>
+</html>

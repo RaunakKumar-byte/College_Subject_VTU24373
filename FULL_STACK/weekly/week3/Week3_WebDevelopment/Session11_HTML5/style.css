@@ -1,0 +1,38 @@
+header {
+background: #333;
+color: white;
+text-align: center;
+padding: 1rem;
+}
+
+nav {
+background: #f4f4f4;
+padding: 0.5rem;
+}
+
+nav a {
+margin: 0 1rem;
+text-decoration: none;
+}
+
+.container {
+display: flex;
+}
+
+.sidebar {
+width: 20%;
+background: #e0e0e0;
+padding: 1rem;
+}
+
+main {
+width: 80%;
+padding: 1rem;
+}
+
+footer {
+background: #333;
+color: white;
+text-align: center;
+padding: 1rem;
+}
