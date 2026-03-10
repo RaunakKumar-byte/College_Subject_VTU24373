@@ -15,12 +15,14 @@ header {
     color: white;
     text-align: center;
     padding: 1rem;
+    grid-area: header;
 }
 
 nav {
     background: #f4f4f4;
     padding: 0.5rem;
     text-align: center;
+    grid-area: nav;
 }
 
 nav a {
@@ -35,19 +37,22 @@ nav a:hover {
 }
 
 .container {
-    display: flex;
+    display: grid;
+    grid-template-areas:
+        "sidebar main";
+    grid-template-columns: 1fr 3fr;
     min-height: calc(100vh - 140px);
 }
 
 .sidebar {
-    width: 20%;
     background: #e0e0e0;
     padding: 1rem;
+    grid-area: sidebar;
 }
 
 main {
-    width: 80%;
     padding: 1rem;
+    grid-area: main;
 }
 
 footer {
@@ -55,14 +60,15 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
+    grid-area: footer;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
-    }
-    .sidebar, main {
-        width: 100%;
+        grid-template-areas:
+            "sidebar"
+            "main";
+        grid-template-columns: 1fr;
     }
 }
