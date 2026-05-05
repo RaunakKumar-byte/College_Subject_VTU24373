@@ -3,160 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+  <meta name="description" content="Your Event Ticketing Dashboard" />
+  <title>Dashboard - Event Ticketing System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body class="fade-in">
   <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <span class="logo">MyApp</span>
-        <button class="sidebar-toggle">☰</button>
-      </div>
-      <nav>
-        <ul>
-          <li class="nav-item active">
-            <a href="/dashboard">
-              <i class="material-icons">dashboard</i>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/profile">
-              <i class="material-icons">person</i>
-              <span>Profile</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/events">
-              <i class="material-icons">event</i>
-              <span>Events</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/settings">
-              <i class="material-icons">settings</i>
-              <span>Settings</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
     <div class="main-content">
+      <!-- Navbar -->
       <nav class="navbar">
-        <button class="sidebar-toggle mobile-only">☰</button>
-        <div class="navbar-brand">MyApp</div>
-        <div class="nav-actions">
-          <button class="dark-toggle" title="Toggle dark mode">🌓</button>
-          <div class="user-menu">
-            <button class="user-btn"><%= user ? user.username : 'User' %> ▾</button>
-            <div class="user-dropdown">
-              <a href="/profile">Profile</a>
-              <a href="/login">Logout</a>
-            </div>
-          </div>
+        <div class="navbar-brand">VEL tech</div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
+        <div class="nav-actions" id="navMenu">
+          <a class="nav-item" href="/events">📅 Events</a>
+          <a class="nav-item" href="/dashboard">🏠 Dashboard</a>
+          <a class="nav-item" href="/profile">👤 Profile</a>
+          <a class="nav-item btn-cancel" href="/logout">🚪 Logout</a>
         </div>
+        <button class="dark-toggle" title="Toggle dark mode">🌓</button>
       </nav>
+
       <main>
+        <!-- Welcome Section -->
         <section class="welcome">
-          <h1>Welcome back, <%= user ? user.username : 'User' %> 👋</h1>
-          <p>Here's a summary of your events and activities</p>
+          <h1>👋 Welcome, <%= user.username %>!</h1>
+          <p id="live-activity">Live activity will appear here...</p>
         </section>
 
-        <!-- Summary Cards Section -->
+        <% if (typeof message !== 'undefined' && message) { %>
+          <div class="success" style="margin-bottom: 1.5rem;">
+            ✅ <%= message %>
+          </div>
+        <% } %>
+
+        <!-- Stats Grid -->
         <section class="stats-grid">
           <div class="stat-card">
-            <div class="label">Total Events</div>
-            <span class="value"><%= typeof totalEvents !== 'undefined' ? totalEvents : 0 %></span>
+            <div class="label">📅 Total Events</div>
+            <span class="value"><%= events.length %></span>
           </div>
           <div class="stat-card">
-            <div class="label">Active Events</div>
-            <span class="value"><%= typeof activeEvents !== 'undefined' ? activeEvents : 0 %></span>
+            <div class="label">🎫 My Bookings</div>
+            <span class="value"><%= myBookings.length %></span>
           </div>
           <div class="stat-card">
-            <div class="label">Completed Events</div>
-            <span class="value"><%= typeof completedEvents !== 'undefined' ? completedEvents : 0 %></span>
+            <div class="label">👥 Online Users</div>
+            <span class="value" id="onlineUsers"><%= onlineUsers %></span>
           </div>
           <div class="stat-card">
-            <div class="label">Online Users</div>
-            <span class="value"><%= typeof onlineUsers !== 'undefined' ? onlineUsers : 0 %></span>
+            <div class="label">🎭 Account Type</div>
+            <span class="value"><%= user.role === "admin" ? "👨‍💼 Admin" : "👤 User" %></span>
           </div>
         </section>
 
-        <!-- Quick Action Buttons -->
-        <section class="quick-actions">
-          <a href="/events" class="action-btn action-btn-primary">
-            <i class="material-icons">add_circle</i>
-            <span>Create New Event</span>
-          </a>
-          <a href="/events" class="action-btn action-btn-secondary">
-            <i class="material-icons">event</i>
-            <span>View All Events</span>
-          </a>
-          <a href="/profile" class="action-btn action-btn-secondary">
-            <i class="material-icons">person</i>
-            <span>Edit Profile</span>
-          </a>
-        </section>
-
-        <!-- Recent Events Preview Section -->
-        <section class="recent-events">
-          <div class="section-header">
-            <h3>Recent Events</h3>
-            <a href="/events" class="view-all-link">View All →</a>
-          </div>
-
-          <% if (events && events.length === 0) { %>
-            <div class="empty-state">
-              <div class="empty-icon">📅</div>
-              <p>No events yet</p>
-              <p class="empty-subtext">Create your first event to get started!</p>
-              <a href="/events" class="btn">Create Event</a>
+        <!-- My Bookings Section -->
+        <section class="content-card">
+          <h3 style="display: flex; align-items: center; gap: 0.75rem;">
+            <span>🎫</span> My Booking History
+          </h3>
+          
+          <% if (!myBookings || myBookings.length === 0) { %>
+            <div style="text-align: center; padding: 2rem;">
+              <p style="color: var(--text-secondary); margin: 0;">
+                You haven't booked any events yet. <a href="/events">Browse events now →</a>
+              </p>
             </div>
-          <% } %>
-
-          <% if (events && events.length > 0) { %>
-            <div class="recent-events-preview">
-              <% events.slice(0, 3).forEach(event => { %>
-                <div class="event-preview-card">
-                  <div class="event-preview-header">
-                    <h4><%= event.title %></h4>
-                    <span class="category-badge <%= event.category ? event.category.toLowerCase() : '' %>">
-                      <%= event.category %>
-                    </span>
+          <% } else { %>
+            <div class="events-grid" style="margin-top: 1.5rem;">
+              <% myBookings.forEach((booking) => { %>
+                <div class="card">
+                  <div class="card-header">
+                    <h4 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                      <span>🎯</span> <%= booking.title %>
+                    </h4>
                   </div>
-
-                  <p class="event-description"><%= event.description ? event.description.substring(0, 80) + '...' : 'No description' %></p>
-
-                  <div class="event-preview-footer">
-                    <span class="event-date-small">
-                      <i class="material-icons">schedule</i>
-                      <%= event.event_date ? new Date(event.event_date).toLocaleDateString() : 'No date' %>
-                    </span>
-                    <span class="status-badge <%= event.status ? event.status.toLowerCase() : 'pending' %>">
-                      <%= event.status || 'Pending' %>
-                    </span>
+                  <div class="card-body">
+                    <p style="margin: 0.5rem 0;"><strong>🎫 Seats Booked:</strong> <%= booking.seat_count %></p>
+                    <p style="margin: 0.5rem 0;"><strong>📅 Event Date:</strong> <%= new Date(booking.event_date).toLocaleDateString() %></p>
+                    <p style="margin: 0.5rem 0;"><strong>⏰ Time:</strong> <%= new Date(booking.event_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></p>
+                    <p style="margin: 0.5rem 0;"><strong>📅 Booked At:</strong> <%= new Date(booking.created_at).toLocaleString() %></p>
                   </div>
                 </div>
               <% }) %>
             </div>
-            <% if (events.length > 3) { %>
-              <div class="view-more-container">
-                <a href="/events" class="view-more-btn">View All <%= events.length %> Events</a>
+          <% } %>
+        </section>
+
+        <!-- Admin Only: All Bookings Section -->
+        <% if (user.role === "admin") { %>
+          <section class="content-card">
+            <h3 style="display: flex; align-items: center; gap: 0.75rem;">
+              <span>📊</span> All Bookings (Real-Time Admin View)
+            </h3>
+            
+            <% if (!allBookings || allBookings.length === 0) { %>
+              <div style="text-align: center; padding: 2rem;">
+                <p style="color: var(--text-secondary); margin: 0;">
+                  No bookings have been made yet.
+                </p>
+              </div>
+            <% } else { %>
+              <div style="overflow-x: auto; margin-top: 1.5rem;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr style="background: var(--card-bg-light); border-bottom: 2px solid var(--border-color);">
+                      <th style="padding: 1rem; text-align: left; font-weight: 600;">Event</th>
+                      <th style="padding: 1rem; text-align: left; font-weight: 600;">User</th>
+                      <th style="padding: 1rem; text-align: left; font-weight: 600;">Seats</th>
+                      <th style="padding: 1rem; text-align: left; font-weight: 600;">Booked At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% allBookings.forEach((booking) => { %>
+                      <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 1rem;">
+                          <strong><%= booking.title %></strong>
+                        </td>
+                        <td style="padding: 1rem;">
+                          <%= booking.username %>
+                        </td>
+                        <td style="padding: 1rem;">
+                          <span style="background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-weight: 600;">
+                            <%= booking.seat_count %>
+                          </span>
+                        </td>
+                        <td style="padding: 1rem; font-size: var(--font-size-sm); color: var(--text-secondary);">
+                          <%= new Date(booking.created_at).toLocaleString() %>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
               </div>
             <% } %>
-          <% } %>
+          </section>
+        <% } %>
+
+        <!-- Quick Actions -->
+        <section style="margin-top: 2rem;">
+          <h3 style="margin-bottom: 1.5rem;">⚡ Quick Actions</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <a href="/events" class="btn-primary" style="text-align: center; text-decoration: none;">
+              📅 Browse Events
+            </a>
+            <% if (user.role === "admin") { %>
+              <a href="/events" class="btn-primary" style="text-align: center; text-decoration: none;">
+                ✨ Create Event
+              </a>
+            <% } %>
+            <a href="/profile" class="btn-primary" style="text-align: center; text-decoration: none;">
+              👤 Edit Profile
+            </a>
+          </div>
         </section>
       </main>
     </div>
   </div>
 
-  <button class="dark-toggle fixed-toggle" title="Toggle dark mode">🌓</button>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/app.js"></script>
+  <script src="/realtime.js"></script>
 </body>
 </html>

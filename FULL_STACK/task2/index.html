@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Retrieval & Sorting Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Data Retrieval & Sorting Dashboard</h1>
+    </header>
+    <main>
+        <div class="controls">
+            <div class="sort-controls">
+                <button id="sort-name-asc">Sort by Name (A-Z)</button>
+                <button id="sort-name-desc">Sort by Name (Z-A)</button>
+                <button id="sort-date-new">Sort by Date (Newest First)</button>
+                <button id="sort-date-old">Sort by Date (Oldest First)</button>
+            </div>
+            <div class="filter-controls">
+                <label for="dept-filter">Filter by Department:</label>
+                <select id="dept-filter">
+                    <option value="all">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                </select>
+            </div>
+            <div class="search-controls">
+                <label for="search-input">Search by Name:</label>
+                <input type="text" id="search-input" placeholder="Enter student name">
+            </div>
+        </div>
+        <div class="counts">
+            <div class="count-card" id="cse-count">CSE: 0 Students</div>
+            <div class="count-card" id="ece-count">ECE: 0 Students</div>
+            <div class="count-card" id="mech-count">Mechanical: 0 Students</div>
+            <div class="count-card" id="civil-count">Civil: 0 Students</div>
+        </div>
+        <table id="student-table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Joining Date</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

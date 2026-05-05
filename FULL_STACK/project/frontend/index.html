@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event API client (reference)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    pre { background: #f4f4f5; padding: 1rem; overflow: auto; border-radius: 8px; }
+    code { background: #f4f4f5; padding: 0.15rem 0.35rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Optional static frontend</h1>
+  <p>
+    The main UI is server-rendered at <code>/events</code> on the Express app (same folder as <code>backend/</code>).
+    For a JSON API example served by the backend, open
+    <a href="http://localhost:3000/events-api-demo.html"><code>http://localhost:3000/events-api-demo.html</code></a>
+    after you log in (uses <code>GET /api/events</code> with cookies).
+  </p>
+  <p>Client boilerplate:</p>
+  <pre><code>const res = await fetch("http://localhost:3000/api/events", {
+  credentials: "include", // send login cookie; same-site only unless you add CORS
+});
+const data = await res.json();
+// data.events → array of events</code></pre>
+</body>
+</html>

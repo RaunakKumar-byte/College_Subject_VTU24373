@@ -3,30 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+  <meta name="description" content="Event Ticketing System - Login to your account" />
+  <title>Login - Event Ticketing System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body class="fade-in">
   <div class="auth-container">
     <div class="auth-card">
-      <h2>Login</h2>
-      <% if (typeof error !== 'undefined') { %>
-        <div class="error"><%= error %></div>
+      <div style="text-align: center; margin-bottom: 1.5rem; font-size: 2.5rem;">🎫</div>
+      <h2>Welcome Back</h2>
+      <p class="auth-subtitle">Sign in to access your event tickets</p>
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error">
+          <strong>❌ Error:</strong> <%= error %>
+        </div>
       <% } %>
-      <form action="/login" method="POST">
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+      
+      <form action="/login" method="POST" id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="form-input-wrapper">
+            <span class="search-icon">✉️</span>
+            <input 
+              type="email" 
+              id="email"
+              name="email" 
+              placeholder="your@email.com" 
+              required 
+              autocomplete="email"
+            />
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="form-input-wrapper">
+            <span class="search-icon">🔒</span>
+            <input 
+              type="password" 
+              id="password"
+              name="password" 
+              placeholder="••••••••" 
+              required 
+              autocomplete="current-password"
+            />
+          </div>
+        </div>
+        
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span>Sign In</span>
+        </button>
       </form>
+      
       <p class="switch-link">
-        Don't have an account? <a href="/register">Register</a>
+        Don't have an account? <a href="/register">Create one now</a>
       </p>
+      
+      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-light); font-size: 0.85rem;">
+        <p>Demo Credentials: admin@test.com / password123</p>
+      </div>
     </div>
   </div>
+  
   <button class="dark-toggle fixed-toggle" title="Toggle dark mode">🌓</button>
   <script src="/app.js"></script>
 </body>

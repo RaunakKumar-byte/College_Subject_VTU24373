@@ -3,39 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Profile</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+  <meta name="description" content="Manage your profile" />
+  <title>My Profile - Event Ticketing System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body class="fade-in">
-  <div class="profile-container">
-    <div class="profile-card">
-      <% if (user && user.role) { %>
-        <div class="role-badge"><%= user.role %></div>
-      <% } %>
-      <div class="avatar"><i class="material-icons">person</i></div>
-      <h2>My Profile</h2>
-      <div class="info">
-        <div class="info-row">
-          <span>Username:</span>
-          <span><%= user.username %></span>
+  <div class="app-container">
+    <div class="main-content">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <div class="navbar-brand">EventSync</div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
+        <div class="nav-actions" id="navMenu">
+          <a class="nav-item" href="/events">📅 Events</a>
+          <a class="nav-item" href="/dashboard">🏠 Dashboard</a>
+          <a class="nav-item" href="/profile">👤 Profile</a>
+          <a class="nav-item btn-cancel" href="/logout">🚪 Logout</a>
         </div>
-        <div class="info-row">
-          <span>Email:</span>
-          <span><%= user.email %></span>
+        <button class="dark-toggle" title="Toggle dark mode">🌓</button>
+      </nav>
+
+      <main>
+        <div style="max-width: 600px; margin: 0 auto;">
+          <section class="profile-card">
+            <% if (user && user.role) { %>
+              <div class="role-badge"><%= user.role === 'admin' ? '👨‍💼 Admin' : '👤 User' %></div>
+            <% } %>
+            
+            <div class="avatar">
+              <i class="material-icons" style="font-size: 3rem;">person</i>
+            </div>
+            
+            <h2 style="text-align: center; margin: 0 0 1rem 0;">
+              <%= user.username %>
+            </h2>
+            
+            <div class="info">
+              <div class="info-row">
+                <span><strong>📧 Email</strong></span>
+                <span><%= user.email %></span>
+              </div>
+              
+              <div class="info-row">
+                <span><strong>🎭 Account Type</strong></span>
+                <span><%= user.role === 'admin' ? 'Admin (Full Access)' : 'User (Booking Only)' %></span>
+              </div>
+              
+              <% if (user.createdAt) { %>
+                <div class="info-row">
+                  <span><strong>📅 Member Since</strong></span>
+                  <span><%= user.createdAt.toDateString ? user.createdAt.toDateString() : user.createdAt %></span>
+                </div>
+              <% } %>
+            </div>
+            
+            <div class="created">
+              ℹ️ Your account information is secure and protected
+            </div>
+            
+            <div class="actions">
+              <button class="btn edit-btn" onclick="alert('Profile editing feature coming soon!')">
+                ✏️ Edit Profile
+              </button>
+              <a href="/dashboard" class="btn back-btn">
+                ← Back to Dashboard
+              </a>
+            </div>
+          </section>
+
+          <!-- Account Stats -->
+          <section class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+              <h3 style="margin: 0;">📊 Your Activity</h3>
+            </div>
+            <div class="card-body">
+              <p style="margin: 0.5rem 0;"><strong>👤 Username:</strong> <%= user.username %></p>
+              <p style="margin: 0.5rem 0;"><strong>✉️ Email:</strong> <%= user.email %></p>
+              <p style="margin: 0.5rem 0;"><strong>🔐 Role:</strong> <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;"><%= user.role %></span></p>
+            </div>
+          </section>
         </div>
-        <% if (user.createdAt) { %>
-          <div class="created">Member since: <%= user.createdAt.toDateString ? user.createdAt.toDateString() : user.createdAt %></div>
-        <% } %>
-      </div>
-      <div class="actions">
-        <button class="btn edit-btn">Edit Profile</button>
-        <a href="/dashboard" class="btn back-btn">Back to Dashboard</a>
-      </div>
+      </main>
     </div>
   </div>
 
